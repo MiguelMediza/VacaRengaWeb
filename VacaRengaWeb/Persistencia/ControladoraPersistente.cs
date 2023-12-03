@@ -180,6 +180,10 @@ namespace VacaRengaWeb.Persistencia
         {
             return new PEInsumo().Modificar(pInsumo);
         }
+        public bool ModificarStock(Insumo pInsumo)
+        {
+            return new PEInsumo().ModificarStock(pInsumo);
+        }
 
         public Insumo BuscarInsumo(short pId)
         {
@@ -190,6 +194,43 @@ namespace VacaRengaWeb.Persistencia
         public List<Insumo> ListaInsumos()
         {
             return new PEInsumo().Listar();
+        }
+
+        #endregion
+
+        #region "Ventas"
+
+        public short ProximoIdVentas()
+        {
+            return new PEVenta().CargarID();
+        }
+        public bool AltaVenta(Venta pVenta)
+        {
+            if (new PEVenta().Alta(pVenta))
+            {
+                return true;
+            }
+            return false;
+        }
+        public bool BajaVenta(short pId)
+        {
+            return new PEVenta().Baja(pId);
+        }
+
+        public bool ModificarVenta(Venta pVenta)
+        {
+            return new PEVenta().Modificar(pVenta);
+        }
+
+        public Venta BuscarVenta(short pId)
+        {
+            return new PEVenta().Buscar(pId);
+        }
+
+
+        public List<Venta> ListaVentas()
+        {
+            return new PEVenta().Listar();
         }
 
         #endregion

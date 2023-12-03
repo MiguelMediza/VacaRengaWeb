@@ -131,6 +131,7 @@
     <Content Include="Presentacion\Insumos.aspx" />
     <Content Include="Presentacion\Login.aspx" />
     <Content Include="Presentacion\Proveedores.aspx" />
+    <Content Include="Presentacion\Ventas.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -243,6 +244,13 @@
     </Compile>
     <Compile Include="Presentacion\Proveedores.aspx.designer.cs">
       <DependentUpon>Proveedores.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Presentacion\Ventas.aspx.cs">
+      <DependentUpon>Ventas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Presentacion\Ventas.aspx.designer.cs">
+      <DependentUpon>Ventas.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.Master.cs">

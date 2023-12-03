@@ -32,6 +32,10 @@
                     <asp:Label ID="Label2" runat="server" Text="Stock:" Width="120px"></asp:Label>
                     <asp:TextBox ID="txtStock" runat="server" Width="200px"></asp:TextBox>
                 </p>
+                <p>
+                    <asp:Label ID="Label4" runat="server" Text="Precio x/unidad:" Width="120px"></asp:Label>
+                    <asp:TextBox ID="txtprecio" runat="server" Width="200px"></asp:TextBox>
+                </p>
 
                 <p>
                 <asp:Label ID="lblMensajes" runat="server" Width="400px" Height="25px"></asp:Label>

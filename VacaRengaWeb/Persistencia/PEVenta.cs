@@ -28,9 +28,9 @@ namespace VacaRengaWeb.Persistencia
 
         public bool Alta(Venta pVenta)
         {
-            string TipoCliente = "EMP"
+            short idCliente = (pVenta.TipoCliente == "EMP") ? pVenta.ClienteEmpresa.Id : pVenta.ClienteParticular.Id;
             string sql = "INSERT INTO Ventas(id, fecha, hora, insumo, unidades, id_cliente, precio, tipoCliente) values(" +
-                pVenta.Id + ",'" + pVenta.Fecha + "','" + pVenta.Hora + "','" + pVenta.Insumo.Id + "'," + pVenta.Unidades + "'," + pVenta. + ")";
+                pVenta.Id + ",'" + pVenta.Fecha + "','" + pVenta.Hora + "'," + pVenta.Insumo.Id + "," + pVenta.Unidades + "," + idCliente + ",'" + pVenta.Precio + "','" + pVenta.TipoCliente + "'" + ")";
             return _conexion.Consulta(sql);
         }
 
@@ -39,45 +39,59 @@ namespace VacaRengaWeb.Persistencia
             string sql = "DELETE FROM Ventas WHERE id = " + pId;
             return _conexion.Consulta(sql);
         }
-        public bool Modificar(Insumo pInsumo)
+        public bool Modificar(Venta pVenta)
         {
             string sql = "UPDATE Insumos" +
-                " SET nombre = '" + pInsumo.Nombre + "'," +
-                " comentario = '" + pInsumo.Comentario + "'," +
-                " id_proveedor = " + pInsumo.Proveedor.Id + "," +
-                " stock = " + pInsumo.Stock +
-                " WHERE id = " + pInsumo.Id;
+                " SET fecha = '" + pVenta.Fecha.ToString("yyyy-MM-dd") + "'," +
+                " hora = '" + pVenta.Hora.ToString("HH:mm") + "'," +
+                " id_insumo = " + pVenta.Insumo.Id + "," +
+                " unidades = " + pVenta.Unidades +
+                " WHERE id = " + pVenta.Id;
             return _conexion.Consulta(sql);
         }
 
-        public List<Insumo> Listar()
+        public List<Venta> Listar()
         {
-            string sql = "select * from Insumos";
+            string sql = "select * from Ventas";
             DataSet datos = _conexion.Seleccion(sql);
-            List<Insumo> lista = new List<Insumo>();
+            List<Venta> lista = new List<Venta>();
 
             ControladoraPersistente UnaCP = new ControladoraPersistente();
             foreach (DataRow fila in datos.Tables[0].Rows)
             {
-                Insumo unInsumo = new Insumo(
-                    short.Parse(fila[0].ToString()),
-                    fila[1].ToString(),
-                    fila[2].ToString(),
-                    UnaCP.BuscarProveedor(short.Parse(fila[3].ToString())),
-                    int.Parse(fila[4].ToString())
+                ClienteEmpresa pCliEmp = new ClienteEmpresa();
+                ClienteParticular pCliPart = new ClienteParticular();
 
+                if (fila[7].ToString() == "EMP")
+                {
+                    pCliEmp = UnaCP.BuscarClienteEmpresa(short.Parse(fila[5].ToString()));
+                }
+                else
+                {
+                    pCliPart = UnaCP.BuscarClienteParticular(short.Parse(fila[5].ToString()));
+                }
+                Venta unaVenta = new Venta(
+                    short.Parse(fila[0].ToString()),
+                    DateTime.Parse(fila[1].ToString()),
+                    DateTime.Parse(fila[2].ToString()),
+                    UnaCP.BuscarInsumo(short.Parse(fila[3].ToString())),
+                    int.Parse(fila[4].ToString()),
+                    pCliEmp,
+                    pCliPart,
+                    double.Parse(fila[6].ToString()),
+                    fila[7].ToString()
 
                     );
-                lista.Add(unInsumo);
+                lista.Add(unaVenta);
             }
             return lista;
         }
 
 
 
-        public Insumo Buscar(int pId)
+        public Venta Buscar(int pId)
         {
-            string sql = "SELECT * FROM Insumos WHERE id =" + pId;
+            string sql = "SELECT * FROM Ventas WHERE id =" + pId;
             DataSet datos = this._conexion.Seleccion(sql);
             DataRowCollection filas = datos.Tables[0].Rows;
 
@@ -85,14 +99,31 @@ namespace VacaRengaWeb.Persistencia
             if (filas.Count > 0)
             {
                 var campos = filas[0];
-                Insumo unInsumo = new Insumo(short.Parse(campos[0].ToString()),
-                    campos[1].ToString(),
-                    campos[2].ToString(),
-                    UnaCP.BuscarProveedor(short.Parse(campos[3].ToString())),
-                    int.Parse(campos[4].ToString())
+                ClienteEmpresa pCliEmp = new ClienteEmpresa();
+                ClienteParticular pCliPart = new ClienteParticular();
+
+                if (campos[7].ToString() == "EMP")
+                {
+                    pCliEmp = UnaCP.BuscarClienteEmpresa(short.Parse(campos[2].ToString()));
+                }
+                else
+                {
+                    pCliPart = UnaCP.BuscarClienteParticular(short.Parse(campos[2].ToString()));
+                }
+
+                Venta unaVenta = new Venta(
+                    short.Parse(campos[0].ToString()),
+                    DateTime.Parse(campos[1].ToString()),
+                    DateTime.Parse(campos[2].ToString()),
+                    UnaCP.BuscarInsumo(short.Parse(campos[3].ToString())),
+                    int.Parse(campos[4].ToString()),
+                    pCliEmp,
+                    pCliPart,
+                    double.Parse(campos[6].ToString()),
+                    campos[7].ToString()
 
                     );
-                return unInsumo;
+                return unaVenta;
             }
             else
             {
@@ -100,5 +131,4 @@ namespace VacaRengaWeb.Persistencia
             }
         }
     }
-}
 }

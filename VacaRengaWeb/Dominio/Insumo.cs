@@ -12,6 +12,7 @@ namespace VacaRengaWeb.Dominio
         private string _comentario;
         Proveedor _proveedor;
         private int _stock;
+        private double _precio;
 
 
         public short Id
@@ -39,19 +40,25 @@ namespace VacaRengaWeb.Dominio
             get { return _stock; }
             set { _stock = value; }
         }
+        public double Precio
+        {
+            get { return _precio; }
+            set { _precio = value; }
+        }
 
         public override string ToString()
         {
-            return this.Id + " " + this.Nombre + " " + this.Comentario + " " + this.Proveedor.Nombre + " " + this.Stock;
+            return this.Id + " " + this.Nombre + " " + this.Comentario + " " + this.Proveedor.Nombre + " " + this.Stock + " " + this.Precio;
         }
 
-        public Insumo(short pId, string pNombre, string pComentario, Proveedor pProveedor, int pStock)
+        public Insumo(short pId, string pNombre, string pComentario, Proveedor pProveedor, int pStock, double pPrecio)
         {
             this.Id = pId;
             this.Nombre = pNombre;
             this.Comentario = pComentario;
             this.Proveedor = pProveedor;
             this.Stock = pStock;
+            this.Precio = pPrecio;
         }
 
     }

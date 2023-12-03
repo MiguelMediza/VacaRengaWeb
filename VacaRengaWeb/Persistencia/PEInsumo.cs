@@ -28,8 +28,8 @@ namespace VacaRengaWeb.Persistencia
 
         public bool Alta(Insumo pInsumo)
         {
-            string sql = "INSERT INTO Insumos(id, nombre, comentario, id_proveedor, stock) values(" +
-                pInsumo.Id + ",'" + pInsumo.Nombre + "','" + pInsumo.Comentario + "','" + pInsumo.Proveedor.Id + "'," + pInsumo.Stock + ")";
+            string sql = "INSERT INTO Insumos(id, nombre, comentario, id_proveedor, stock, precio) values(" +
+                pInsumo.Id + ",'" + pInsumo.Nombre + "','" + pInsumo.Comentario + "'," + pInsumo.Proveedor.Id + "," + pInsumo.Stock + ",'" + pInsumo.Precio + "'"+ ")";
             return _conexion.Consulta(sql);
         }
 
@@ -44,8 +44,17 @@ namespace VacaRengaWeb.Persistencia
                 " SET nombre = '" + pInsumo.Nombre + "'," +
                 " comentario = '" + pInsumo.Comentario + "'," +
                 " id_proveedor = " + pInsumo.Proveedor.Id + "," +
-                " stock = " + pInsumo.Stock +
-                " WHERE id = " + pInsumo.Id;
+                " stock = " + pInsumo.Stock + "," +
+                " precio = '" + pInsumo.Precio + "'" +
+               " WHERE id = " + pInsumo.Id;
+            return _conexion.Consulta(sql);
+        }
+
+        public bool ModificarStock(Insumo pInsumo)
+        {
+            string sql = "UPDATE Insumos" +
+                " SET stock = " + pInsumo.Stock +
+               " WHERE id = " + pInsumo.Id;
             return _conexion.Consulta(sql);
         }
 
@@ -63,9 +72,8 @@ namespace VacaRengaWeb.Persistencia
                     fila[1].ToString(),
                     fila[2].ToString(),
                     UnaCP.BuscarProveedor(short.Parse(fila[3].ToString())),
-                    int.Parse(fila[4].ToString())
-
-
+                    int.Parse(fila[4].ToString()),
+                    double.Parse(fila[5].ToString())
                     );
                 lista.Add(unInsumo);
             }
@@ -88,7 +96,8 @@ namespace VacaRengaWeb.Persistencia
                     campos[1].ToString(),
                     campos[2].ToString(),
                     UnaCP.BuscarProveedor(short.Parse(campos[3].ToString())),
-                    int.Parse(campos[4].ToString())
+                    int.Parse(campos[4].ToString()),
+                    double.Parse(campos[5].ToString())
 
                     );
                 return unInsumo;

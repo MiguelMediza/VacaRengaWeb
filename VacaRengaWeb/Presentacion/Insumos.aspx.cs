@@ -9,6 +9,7 @@ namespace VacaRengaWeb.Presentacion
 {
     public partial class Insumos : System.Web.UI.Page
     {
+        private Dominio.Controladora Controladora = new Dominio.Controladora();
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -29,6 +30,7 @@ namespace VacaRengaWeb.Presentacion
             this.txtComentario.Text = string.Empty;
             this.ddlProveedor.Text = string.Empty;
             this.txtStock.Text = string.Empty;
+            this.txtprecio.Text = string.Empty;
             Label3.Visible = false;
             txtInfoProveedor.Visible = false;
         }
@@ -86,6 +88,11 @@ namespace VacaRengaWeb.Presentacion
                 lblMensajes.Text = "Debe ingresar un stock valido!";
                 return false;
             }
+            if (txtprecio.Text.Trim() == "" || !Double.TryParse(txtprecio.Text, out _))
+            {
+                lblMensajes.Text = "Debe ingresar un precio valido!";
+                return false;
+            }
 
             return true;
         }
@@ -107,7 +114,8 @@ namespace VacaRengaWeb.Presentacion
                         this.ddlProveedor.SelectedValue = unInsumo.Proveedor.Id.ToString();
                     }
                 }
-                this.txtStock.Text = unInsumo.Stock.ToString();
+                this.txtStock.Text = Convert.ToDouble(unInsumo.Stock).ToString();
+                this.txtprecio.Text = unInsumo.Precio.ToString();
                 Label3.Visible = true;
                 txtInfoProveedor.Visible = true;
                 short Id = Convert.ToInt16(ddlProveedor.SelectedValue);
@@ -136,8 +144,13 @@ namespace VacaRengaWeb.Presentacion
                 Dominio.Proveedor Proveedor = unaControladora.BuscarProveedor(id);
 
                 int Stock = Convert.ToInt32(txtStock.Text);
+                
+                double Precio = Convert.ToDouble(txtprecio.Text);
 
-                Dominio.Insumo unInsumo = new Dominio.Insumo(Id, Nombre, Comentario, Proveedor, Stock);
+
+
+
+                Dominio.Insumo unInsumo = new Dominio.Insumo(Id, Nombre, Comentario, Proveedor, Stock, Precio);
 
 
                 if (unaControladora.AltaInsumo(unInsumo))
@@ -169,9 +182,10 @@ namespace VacaRengaWeb.Presentacion
                 Dominio.Proveedor Proveedor = unaControladora.BuscarProveedor(id);
 
                 int Stock = Convert.ToInt32(txtStock.Text);
+                double Precio = Convert.ToDouble(txtprecio.Text);
 
 
-                if (unaControladora.ModificarInsumo(Id, Nombre, Comentario, Proveedor, Stock))
+                if (unaControladora.ModificarInsumo(Id, Nombre, Comentario, Proveedor, Stock, Precio))
                 {
                     this.ListarInsumos();
                     lblMensajes.Text = "Insumo ID:{" + Id + "}" + " " + Nombre + " modificado correctamente!";

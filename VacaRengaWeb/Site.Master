@@ -56,7 +56,7 @@
                         <li><a runat="server" href="~/Presentacion/Clientes">Clientes</a></li>
                         <li><a runat="server" href="~/Presentacion/Proveedores">Proveedores</a></li>
                         <li><a runat="server" href="~/Presentacion/Insumos">Insumos</a></li>
-                        <li><a runat="server" href="~/Presentacion/Contact">Contacto</a></li>
+                        <li><a runat="server" href="~/Presentacion/Ventas">Ventas</a></li>
                     </ul>
                 </div>
             </div>

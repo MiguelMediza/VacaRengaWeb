@@ -15,9 +15,7 @@ namespace VacaRengaWeb.Dominio
         private List<Insumo> _listaInsumos = new List<Insumo>();
         private List<Venta> _listaVentas = new List<Venta>();
         private List<Empresa> _listaEmpresas = new List<Empresa>();
-        private static List<Paquete> _listaPaquetes = new List<Paquete>();
 
-        private static short _proximoIdPaquete = 1;
 
 
         #region " ABM Empresa "
@@ -483,7 +481,7 @@ namespace VacaRengaWeb.Dominio
         }
 
         //Modifica un cliente ya agregado
-        public bool ModificarInsumo(short pId, string pNombre, string pComentario, Proveedor pProveedor, int pStock)
+        public bool ModificarInsumo(short pId, string pNombre, string pComentario, Proveedor pProveedor, int pStock, double pPrecio)
         {
             Insumo unInsumo = BuscarInsumo(pId);
             if (unInsumo != null)
@@ -492,7 +490,48 @@ namespace VacaRengaWeb.Dominio
                 unInsumo.Comentario = pComentario;
                 unInsumo.Proveedor = pProveedor;
                 unInsumo.Stock = pStock;
+                unInsumo.Precio = pPrecio;
                 if (_persistencia.ModificarInsumo(unInsumo))
+                {
+                    return true;
+
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool ModificarStock(short pId, int pUnidades, string pTipo)
+        {
+            Insumo unInsumo = BuscarInsumo(pId);
+            if (unInsumo != null)
+            {
+                if (pTipo == "Alta")
+                {
+                    if (unInsumo.Stock < pUnidades)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        unInsumo.Stock = (unInsumo.Stock - pUnidades);
+                    }
+                    
+                }
+                else
+                {
+                    unInsumo.Stock = (unInsumo.Stock + pUnidades);
+                }
+                
+                
+                if (_persistencia.ModificarStock(unInsumo))
                 {
                     return true;
 
