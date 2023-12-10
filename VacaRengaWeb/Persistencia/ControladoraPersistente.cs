@@ -234,5 +234,38 @@ namespace VacaRengaWeb.Persistencia
         }
 
         #endregion
+
+        #region Usuario
+        public short ProximoIdUsuario()
+        {
+            return new PUsuario().ProximoId();
+        }
+        public bool AltaUsuario(Usuario pUsuario)
+        {
+            if (new PUsuario().Alta(pUsuario))
+            {
+                return true;
+            }
+            return false;
+        }
+        public bool BajaUsuario(short pId)
+        {
+            return new PUsuario().Baja(pId);
+        }
+        public bool ModificarUsuario(Usuario pUsuario)
+        {
+            return new PUsuario().Modificar(pUsuario);
+        }
+
+        public Usuario BuscarUsuario(short pId)
+        {
+            return new PUsuario().Buscar(pId);
+        }
+        public List<Usuario> ListaUsuarios()
+        {
+            return new PUsuario().Listar();
+        }
+
+        #endregion
     }
 }

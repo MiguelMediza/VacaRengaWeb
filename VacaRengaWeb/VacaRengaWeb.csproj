@@ -176,6 +176,7 @@
     <Compile Include="Dominio\Paquete.cs" />
     <Compile Include="Dominio\Persona.cs" />
     <Compile Include="Dominio\Proveedor.cs" />
+    <Compile Include="Dominio\Usuario.cs" />
     <Compile Include="Dominio\Venta.cs" />
     <Compile Include="Persistencia\Conexion.cs" />
     <Compile Include="Persistencia\ControladoraPersistente.cs" />
@@ -185,6 +186,7 @@
     <Compile Include="Persistencia\PEmpresa.cs" />
     <Compile Include="Persistencia\PEProveedor.cs" />
     <Compile Include="Persistencia\PEVenta.cs" />
+    <Compile Include="Persistencia\PUsuario.cs" />
     <Compile Include="Presentacion\About.aspx.cs">
       <DependentUpon>About.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

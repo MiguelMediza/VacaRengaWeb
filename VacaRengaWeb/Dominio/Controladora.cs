@@ -15,6 +15,8 @@ namespace VacaRengaWeb.Dominio
         private List<Insumo> _listaInsumos = new List<Insumo>();
         private List<Venta> _listaVentas = new List<Venta>();
         private List<Empresa> _listaEmpresas = new List<Empresa>();
+        private List<Usuario> _listaUsuarios = new List<Usuario>();
+        private static Usuario _usuarioLogueado = new Usuario();
 
 
 
@@ -715,6 +717,115 @@ namespace VacaRengaWeb.Dominio
 
         #endregion
 
+        #region " ABM Usuario "
+        public int ProximoIdUsuario()
+        {
+            return _persistencia.ProximoIdUsuario() + 1;
+        }
+        public List<Usuario> ListaUsuarios()
+        {
+            return _listaUsuarios;
+        }
+
+        public Usuario BuscarUsuario(short pId)
+        {
+            foreach (Usuario unUsuario in _listaUsuarios)
+            {
+                if (unUsuario.Id.Equals(pId))
+                {
+                    return unUsuario;
+                }
+            }
+            return null;
+        }
+        public Usuario BuscarUsuarioXEmail(string pEmail)
+        {
+            foreach (Usuario unUsuario in _listaUsuarios)
+            {
+                if (unUsuario.Email.Equals(pEmail))
+                {
+                    return unUsuario;
+                }
+            }
+            return null;
+        }
+
+        public bool AltaUsuario(Usuario pUsuario)
+        {
+            Usuario unUsuario = BuscarUsuario(pUsuario.Id);
+
+            if (unUsuario == null)
+            {
+                if (_persistencia.AltaUsuario(pUsuario))
+                {
+                    _listaUsuarios.Add(pUsuario);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public bool ModificarUsuario(short pId, string pNombre, string pEmail, string pContrasenia, string pTipo)
+        {
+            Usuario unUsuario = BuscarUsuario(pId);
+            if (unUsuario != null)
+            {
+                unUsuario.Nombre = pNombre;
+                unUsuario.Email = pEmail;
+                unUsuario.Contrasenia = pContrasenia;
+                unUsuario.Tipo = pTipo;
+                if (_persistencia.ModificarUsuario(unUsuario))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool BajaUsuario(short pId)
+        {
+            Usuario unUsuario = BuscarUsuario(pId);
+            if (unUsuario != null)
+            {
+                if (_persistencia.BajaUsuario(pId))
+                {
+                    _listaUsuarios.Remove(unUsuario);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        #endregion
+        #region 
+
+        public void AltaUsuarioLogueado(Usuario pUsuario)
+        {
+            _usuarioLogueado = pUsuario;
+        }
+        public Usuario VerUsuarioLogueado()
+        {
+            return _usuarioLogueado;
+        }
+        #endregion
+
         //#region " ABM Paquete "
 
         //public void IncrementoIdPaquete()//Incrementa la ID de Paquete
@@ -805,6 +916,7 @@ namespace VacaRengaWeb.Dominio
         public Controladora()
 		{
             _persistencia = new ControladoraPersistente();
+            this._listaUsuarios = _persistencia.ListaUsuarios();
             this._listaEmpresas = _persistencia.ListaEmpresas();
             this._listaClientesEmpresa = _persistencia.ListaClientesEmpresa();
             this._listaClientesParticular = _persistencia.ListaClientesParticular();
@@ -814,4 +926,3 @@ namespace VacaRengaWeb.Dominio
         }
 	}
 }
-
