@@ -35,6 +35,7 @@ namespace VacaRengaWeb.Presentacion
             this.txtDireccion.Text = string.Empty;
             this.txtTelefono.Text = string.Empty;
             this.txtTipoProducto.Text = string.Empty;
+            this.txtImpuestos.Text = string.Empty;
         }
 
         private void ListarProveedor()

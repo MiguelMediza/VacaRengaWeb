@@ -64,7 +64,8 @@ precio VARCHAR(25) NOT NULL,
 tipoCliente VARCHAR(10) NOT NULL
 );
 
-select * from ventas;
+select * from ventas
+
 
 /*Ingreso de datos de prueba/*
 INSERT INTO Empresa VALUES (1, 'Pepsi');

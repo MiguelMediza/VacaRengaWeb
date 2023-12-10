@@ -102,7 +102,7 @@ namespace VacaRengaWeb.Presentacion
                     this.rbtEmpresa.Checked = false;
 
                     this.ListarClientes();
-                    this.ddlClientes.Text = unaVenta.ClienteParticular.Id + " " + unaVenta.ClienteParticular.Nombre + " " + unaVenta.ClienteParticular.Apellido;
+                    this.ddlClientes.Text = unaVenta.ClienteParticular.Id + " " + unaVenta.ClienteParticular.Cedula + " " + unaVenta.ClienteParticular.Nombre + " " + unaVenta.ClienteParticular.Apellido;
                 }
 
                 this.txtprecio.Text = unaVenta.Precio.ToString();
@@ -126,7 +126,7 @@ namespace VacaRengaWeb.Presentacion
             {
                 foreach (Dominio.ClienteParticular unCli in this.Controladora.ListaClientesParticular())
                 {
-                    this.ddlClientes.Items.Add(unCli.Id + " " + unCli.Cedula + " " + unCli.Nombre + " " + unCli.Apellido + " " + unCli.Direccion + " " + unCli.Telefono);
+                    this.ddlClientes.Items.Add(unCli.Id + " " + unCli.Nombre + " " + unCli.Apellido);
                 }
             }
 
@@ -156,7 +156,11 @@ namespace VacaRengaWeb.Presentacion
 
         private void CargarPrecio()
         {
-            if (ddlInsumos.SelectedIndex==0)
+            if (ddlClientes.SelectedIndex == 0)
+            {
+                lblMensajes.Text = "Seleccione un cliente!";
+            }
+            else if (ddlInsumos.SelectedIndex==0)
             {
                 lblMensajes.Text = "Seleccione un insumo!";
             }
